@@ -385,42 +385,49 @@
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_next" value="thank-you.html">
 
-        <h3>Заявка на консультацию</h3>
-        <p>Заполните форму, и Елена Ивановна свяжется с вами.</p>
+        <h3>Запишитесь на бесплатную диагностику</h3>
+        <p>Заполните форму, и Елена Ивановна свяжется с вами, чтобы подобрать удобное время.</p>
 
         <div class="form-grid">
           <div class="field">
-            <label for="name">Ваше имя</label>
-            <input name="Имя родителя" id="name" type="text" placeholder="Например, Анна" autocomplete="name" required>
+            <label for="parentName">Имя родителя</label>
+            <input type="text" id="parentName" name="Имя родителя" placeholder="Ваше имя" autocomplete="name" required>
           </div>
           <div class="field">
-            <label for="phone">Телефон</label>
-            <input name="Телефон" id="phone" type="tel" placeholder="+7 ___ ___-__-__" autocomplete="tel" required>
+            <label for="childName">Имя ребенка</label>
+            <input name="Имя ребенка" id="childName" type="text" placeholder="Например, Миша" required>
           </div>
           <div class="field">
-            <label for="child">Возраст ребенка</label>
-            <select name="Возраст ребенка" id="child" required>
+            <label for="childAge">Возраст ребенка</label>
+            <select id="childAge" name="Возраст ребенка" required>
               <option value="">Выберите возраст</option>
+              <option>до 2 лет</option>
               <option>2–3 года</option>
+              <option>3–4 года</option>
               <option>4–5 лет</option>
+              <option>5–6 лет</option>
               <option>6–7 лет</option>
-              <option>Младший школьник</option>
+              <option>7+ лет</option>
             </select>
           </div>
           <div class="field">
-            <label for="preferredContact">Удобный способ связи</label>
-            <select name="Удобный способ связи" id="preferredContact" required>
+            <label for="phone">Телефон</label>
+            <input type="tel" id="phone" name="Телефон" placeholder="+7 (___) ___-__-__" autocomplete="tel" required>
+          </div>
+          <div class="field">
+            <label for="contactType">Удобный способ связи</label>
+            <select id="contactType" name="Удобный способ связи" required>
               <option value="Телефон">Телефон</option>
               <option value="MAX">MAX</option>
               <option value="SMS">SMS</option>
             </select>
           </div>
           <div class="field">
-            <label for="message">Что вас беспокоит?</label>
-            <textarea name="Что беспокоит" id="message" placeholder="Кратко опишите запрос"></textarea>
+            <label for="problem">Что беспокоит</label>
+            <textarea id="problem" name="Что беспокоит" rows="5" placeholder="Например: ребенок плохо произносит звуки Р и Л, маленький словарный запас, не говорит предложениями..."></textarea>
           </div>
 
-          <button class="btn btn-primary" type="submit">Отправить заявку</button>
+          <button class="btn btn-primary" type="submit">Записаться на бесплатную диагностику</button>
 
           <div class="form-note">
             Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
