@@ -1136,6 +1136,27 @@ textarea {
   border-top: 3px solid var(--sage);
 }
 
+.privacy-box h3 {
+  margin-top: 26px;
+  margin-bottom: 10px;
+  color: var(--sage-deep);
+  font-size: 22px;
+}
+
+.privacy-box p {
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.privacy-box ul {
+  margin: 12px 0 18px 20px;
+  color: var(--muted);
+}
+
+.privacy-box li {
+  margin-bottom: 8px;
+}
+
 .thank-you-page {
   min-height: calc(100vh - 12rem);
   display: flex;
