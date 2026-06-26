@@ -35,21 +35,49 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-      }
-    });
-  }, { threshold: 0.15 });
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  document.querySelectorAll(".reveal").forEach(function (element) {
-    observer.observe(element);
+  document.querySelectorAll(".section").forEach(function (section) {
+    section.querySelectorAll(".reveal").forEach(function (element, index) {
+      element.style.setProperty("--reveal-delay", (index * 0.07) + "s");
+    });
   });
 
   document.querySelectorAll(".hero .reveal").forEach(function (element) {
     element.classList.add("visible");
   });
+
+  if (prefersReducedMotion) {
+    document.querySelectorAll(".reveal").forEach(function (element) {
+      element.classList.add("visible");
+    });
+  } else {
+    const observer = new IntersectionObserver(function (entries, io) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: "0px 0px -6% 0px"
+    });
+
+    document.querySelectorAll(".reveal").forEach(function (element) {
+      if (!element.classList.contains("visible")) {
+        observer.observe(element);
+      }
+    });
+  }
+
+  const whatsappBtn = document.querySelector(".float-btn.whatsapp");
+  if (whatsappBtn && !prefersReducedMotion) {
+    whatsappBtn.classList.add("pulse-once");
+    whatsappBtn.addEventListener("animationend", function () {
+      whatsappBtn.classList.remove("pulse-once");
+    }, { once: true });
+  }
 
   const header = document.querySelector(".header");
   if (header) {

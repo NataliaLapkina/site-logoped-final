@@ -15,9 +15,10 @@
   --font-display: "Fraunces", "Georgia", serif;
   --font-body: "Newsreader", "Georgia", serif;
 
-  --shadow: 0 28px 80px rgba(42, 36, 32, 0.14);
-  --shadow-soft: 0 14px 40px rgba(42, 36, 32, 0.08);
-  --shadow-clay: 0 18px 44px rgba(196, 90, 58, 0.22);
+  --shadow: 0 24px 64px rgba(42, 36, 32, 0.1);
+  --shadow-soft: 0 8px 32px rgba(42, 36, 32, 0.06);
+  --shadow-clay: 0 14px 36px rgba(196, 90, 58, 0.18);
+  --shadow-hover: 0 16px 44px rgba(42, 36, 32, 0.11);
   --container: 1180px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --radius-lg: 2rem;
@@ -34,6 +35,26 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sage) var(--paper);
+}
+
+html::-webkit-scrollbar {
+  width: 7px;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--sage) 0%, var(--sage-deep) 100%);
+  border-radius: 999px;
+  border: 2px solid var(--paper);
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--honey) 0%, var(--clay) 100%);
 }
 
 body {
@@ -89,10 +110,11 @@ img {
 /* ——— Reveal animations ——— */
 .reveal {
   opacity: 0;
-  transform: translateY(2.25rem) rotate(0.4deg);
+  transform: translateY(2rem);
   transition:
-    opacity 1s var(--ease-out),
-    transform 1s var(--ease-out);
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0s);
 }
 
 .reveal.visible {
@@ -161,7 +183,7 @@ img {
 }
 
 .btn:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.02);
 }
 
 .btn-primary {
@@ -172,7 +194,7 @@ img {
 
 .btn-primary:hover {
   background: var(--clay-deep);
-  box-shadow: 0 22px 50px rgba(154, 63, 40, 0.32);
+  box-shadow: 0 18px 44px rgba(154, 63, 40, 0.26);
 }
 
 .btn-secondary {
@@ -185,6 +207,7 @@ img {
 .btn-secondary:hover {
   border-color: var(--sage);
   background: #fff;
+  box-shadow: var(--shadow-hover);
 }
 
 /* ——— Surfaces ——— */
@@ -217,7 +240,7 @@ img {
 
 .header.is-scrolled {
   background: rgba(253, 248, 242, 0.92);
-  box-shadow: 0 8px 32px rgba(42, 36, 32, 0.06);
+  box-shadow: 0 6px 28px rgba(42, 36, 32, 0.05);
 }
 
 .header-inner {
@@ -394,6 +417,7 @@ img {
 }
 
 .promo-badge {
+  position: relative;
   margin-top: 20px;
   margin-bottom: 1.25rem;
   display: inline-block;
@@ -404,6 +428,17 @@ img {
   font-weight: 700;
   font-size: 18px;
   box-shadow: 0 14px 30px rgba(223, 90, 22, 0.25);
+}
+
+.promo-badge::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  opacity: 0;
+  box-shadow: 0 0 24px rgba(223, 90, 22, 0.35);
+  animation: promo-glow 7s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .hero-text {
@@ -430,12 +465,14 @@ img {
 .hero-feature {
   padding: 1.15rem 1rem;
   border-radius: var(--radius-lg);
-  transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease;
+  transition:
+    transform 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out);
 }
 
 .hero-feature:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
 }
 
 .hero-feature strong {
@@ -498,9 +535,11 @@ img {
   height: 100%;
   object-fit: cover;
   transition: transform 0.8s var(--ease-out);
+  animation: photo-breathe 9s ease-in-out infinite;
 }
 
 .hero-photo-card:hover .hero-photo img {
+  animation-play-state: paused;
   transform: scale(1.03);
 }
 
@@ -568,8 +607,8 @@ img {
 .card:hover,
 .document-card:hover,
 .price-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
   border-left-color: var(--clay);
 }
 
@@ -580,7 +619,7 @@ img {
 
 .cards-grid .card:nth-child(2):hover,
 .cards-grid .card:nth-child(5):hover {
-  transform: translateY(calc(1rem - 6px));
+  transform: translateY(calc(1rem - 5px));
 }
 
 .card-icon {
@@ -852,7 +891,11 @@ img {
   padding: 1.75rem;
   position: relative;
   overflow: hidden;
-  transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease;
+  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+}
+
+.price-card:has(.price-note) {
+  animation: promo-card-glow 7s ease-in-out infinite;
 }
 
 .price-card.popular {
@@ -1235,13 +1278,17 @@ textarea {
   place-items: center;
   color: white;
   font-weight: 700;
-  box-shadow: 0 12px 32px rgba(42, 36, 32, 0.28);
-  transition: transform 0.35s var(--ease-out), box-shadow 0.35s ease;
+  box-shadow: 0 10px 28px rgba(42, 36, 32, 0.22);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
 }
 
 .float-btn:hover {
-  transform: scale(1.08) translateY(-2px);
-  box-shadow: 0 18px 40px rgba(42, 36, 32, 0.32);
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 16px 36px rgba(42, 36, 32, 0.26);
+}
+
+.float-btn.whatsapp.pulse-once {
+  animation: whatsapp-pulse-once 1.4s var(--ease-out) 1;
 }
 
 .float-btn.whatsapp {
@@ -1366,6 +1413,10 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
@@ -1377,5 +1428,66 @@ textarea {
   .reveal {
     opacity: 1;
     transform: none;
+    transition-delay: 0s !important;
+  }
+
+  .hero-photo img {
+    animation: none !important;
+  }
+
+  .promo-badge::after,
+  .price-card:has(.price-note) {
+    animation: none !important;
+  }
+}
+
+/* ——— Motion keyframes ——— */
+@keyframes photo-breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.012);
+  }
+}
+
+@keyframes promo-glow {
+  0%, 88%, 100% {
+    opacity: 0;
+  }
+
+  94% {
+    opacity: 1;
+  }
+}
+
+@keyframes promo-card-glow {
+  0%, 88%, 100% {
+    box-shadow: var(--shadow-soft);
+  }
+
+  94% {
+    box-shadow:
+      var(--shadow-soft),
+      0 0 0 2px rgba(196, 90, 58, 0.14),
+      0 0 28px rgba(196, 90, 58, 0.16);
+  }
+}
+
+@keyframes whatsapp-pulse-once {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 28px rgba(42, 36, 32, 0.22);
+  }
+
+  45% {
+    transform: scale(1.1);
+    box-shadow: 0 14px 36px rgba(37, 211, 102, 0.42);
+  }
+
+  70% {
+    transform: scale(1.04);
+    box-shadow: 0 12px 32px rgba(37, 211, 102, 0.3);
   }
 }
